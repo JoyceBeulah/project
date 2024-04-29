@@ -45,8 +45,8 @@ Flatten the index,confidence.
 ### Step8:
 Display the result.
 
-### PROGRAM:
-#### II)Perform handwritting detection in an image
+## PROGRAM:
+### II)Perform handwritting detection in an image
 
 ```python
 import cv2
@@ -75,6 +75,41 @@ def detect_handwriting(image_path):
 image_path = 'img proj.jpg'
 detect_handwriting(image_path)
 ```
-### OUTPUT:
+#### OUTPUT:
 ![image](https://github.com/JoyceBeulah/project/assets/118343698/7b4668cf-f7e4-495a-a667-7ce87c92a4f9)
+
+### III)Perform object detection with label in an image
+
+```python
+config_file='ssd_mobilenet_v3_large_coco_2020_01_14.pbtxt'
+frozen_model='frozen_inference_graph.pb'
+
+model=cv2.dnn_DetectionModel(frozen_model,config_file)
+
+classLabels = []
+file_name='Labels.txt'
+with open(file_name,'rt')as fpt:
+    classLabels=fpt.read().rstrip('\n').split('\n')
+
+print(classLabels)
+print(len(classLabels))
+img=cv2.imread('cow.jpg')
+plt.imshow(img)
+plt.imshow(cv2.cvtColor(img,cv2.COLOR_BGR2RGB))
+model.setInputSize(320,320)
+model.setInputScale(1.0/127.5)#255/2=127.5
+model.setInputMean((127.5,127.5,127.5))
+model.setInputSwapRB(True)
+ClassIndex,confidence,bbox=model.detect(img,confThreshold=0.5)
+print(ClassIndex)
+font_scale=3
+font=cv2.FONT_HERSHEY_PLAIN
+for ClassInd,conf,boxes in zip(ClassIndex.flatten(),confidence.flatten(),bbox):
+    cv2.rectangle(img,boxes,(0,0,255),2)
+    cv2.putText(img,classLabels[ClassInd-1],(boxes[0]+10,boxes[1]+40),font,fontScale=font_scale,color=(255,0,0),thickness=1)
+plt.imshow(cv2.cvtColor(img,cv2.COLOR_BGR2RGB))
+```
+
+#### OUTPUT:
+![image](https://github.com/JoyceBeulah/project/assets/118343698/e0c50cf2-4c0d-4608-b780-70ea5a7060e0)
 
