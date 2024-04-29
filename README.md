@@ -46,6 +46,27 @@ Flatten the index,confidence.
 Display the result.
 
 ## PROGRAM:
+### I)Perform ROI from an image
+```python
+import cv2
+import numpy as np
+
+image = cv2.imread('rose.jpg')
+image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+cv2.imshow('Original Image', image_rgb)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+roi_mask = np.zeros_like(image_rgb)
+roi_mask[100:300, 200:400, :] = 255  
+segmented_roi = cv2.bitwise_and(image_rgb, roi_mask)
+cv2.imshow('Segmented ROI', segmented_roi)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+```
+#### OUTPUT:
+![image](https://github.com/JoyceBeulah/project/assets/118343698/2fc70ef1-f230-47e2-972c-d1da822b1dd5)
+![image](https://github.com/JoyceBeulah/project/assets/118343698/b5178e13-970d-4d06-94db-d3c88bff2f4a)
+
 ### II)Perform handwritting detection in an image
 
 ```python
@@ -113,3 +134,5 @@ plt.imshow(cv2.cvtColor(img,cv2.COLOR_BGR2RGB))
 #### OUTPUT:
 ![image](https://github.com/JoyceBeulah/project/assets/118343698/e0c50cf2-4c0d-4608-b780-70ea5a7060e0)
 
+## Result:
+Thus, a python program using OpenCV for following image manipulations is done successfully
